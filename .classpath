@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/Discord4J/Discord4J-2.10.1-shaded.jar" sourcepath="libs/Discord4J/Discord4J-2.10.1-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
