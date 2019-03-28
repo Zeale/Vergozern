@@ -1,3 +1,6 @@
 [submodule "libs/submodules/Discord4J"]
 	path = libs/submodules/Discord4J
 	url = https://github.com/Discord4J/Discord4J
+[submodule "libs/submodules/java-library"]
+	path = libs/submodules/java-library
+	url = https://github.com/Zeale/java-library
