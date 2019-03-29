@@ -13,13 +13,13 @@ public final class CommandHandler {
 
 	private final GenericCommandManager<MessageReceivedEvent> commandManager = new GenericCommandManager<>();
 
-	private abstract class Command implements QuickGenericCommand<MessageReceivedEvent> {
+	private abstract class CommandHandle implements QuickGenericCommand<MessageReceivedEvent> {
 		{
 			commandManager.addCommand(this);
 		}
 	}
 
-	private abstract class StringCommand extends Command {
+	private abstract class StringCommand extends CommandHandle {
 		@Override
 		public boolean match(MessageReceivedEvent data) {
 			return new ManipulableString(data.getMessage().getContent()).consumeIf(Matching.build("~")
