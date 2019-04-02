@@ -7,7 +7,8 @@ import com.vergozern.api.commands.MessageCommand;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 
 public class MessageCommandParser {
-	private final StringCommandParser commandParser = new StringCommandParser("~");
+	// TODO Commit this
+	private final StringCommandParser commandParser = new StringCommandParser("");
 
 	public MessageCommand parse(MessageReceivedEvent event) {
 		return new MessageCommand(commandParser.parse(event.getMessage().getContent()), event);
