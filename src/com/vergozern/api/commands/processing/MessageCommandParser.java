@@ -12,7 +12,6 @@ public class MessageCommandParser {
 
 	public MessageCommand parse(MessageReceivedEvent event, String commandInitiatorText) {
 		commandParser.setCommandInitiator(commandInitiatorText);
-		System.out.println(commandInitiatorText);
 		return new MessageCommand(commandParser.parse(event.getMessage().getContent()), commandInitiatorText, event);
 	}
 

@@ -88,14 +88,14 @@ public final class CommandHandler implements IListener<MessageReceivedEvent> {
 	@Override
 	public void handle(MessageReceivedEvent event) {
 
-		String matchedText = event.getMessage().getContent().substring(0,
-				event.getMessage().getContent().length() - new ManipulableString(event.getMessage().getContent())
-						.consumeIf(Matching.build("~").or(
-								Matching.ignoreCase(event.getClient().getApplicationName()).possibly(",").then(" ")))
-						.length());
+		String leftoverMessage = new ManipulableString(event.getMessage().getContent()).consumeIf(Matching.build("~")
+				.or(Matching.ignoreCase(event.getClient().getApplicationName()).possibly(",").then(" ")));
 
-		if (matchedText != null)
+		if (leftoverMessage != null) {
+			String matchedText = event.getMessage().getContent().substring(0,
+					event.getMessage().getContent().length() - leftoverMessage.length());
 			commandManager.run(commandParser.parse(event, matchedText));
+		}
 
 	}
 
