@@ -43,9 +43,9 @@ public final class CommandHandler implements IListener<MessageReceivedEvent> {
 		@Override
 		public boolean match(MessageCommand cmd) {
 			for (String s : matches)
-				if (!(ignoreCase ? s.equalsIgnoreCase(cmd.command) : s.equals(cmd.command)))
-					return false;
-			return true;
+				if (ignoreCase ? s.equalsIgnoreCase(cmd.command) : s.equals(cmd.command))
+					return true;
+			return false;
 		}
 
 	}
