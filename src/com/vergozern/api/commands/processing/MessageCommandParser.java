@@ -10,8 +10,10 @@ public class MessageCommandParser {
 	// TODO Commit this
 	private final StringCommandParser commandParser = new StringCommandParser("");
 
-	public MessageCommand parse(MessageReceivedEvent event) {
-		return new MessageCommand(commandParser.parse(event.getMessage().getContent()), event);
+	public MessageCommand parse(MessageReceivedEvent event, String commandInitiatorText) {
+		commandParser.setCommandInitiator(commandInitiatorText);
+		System.out.println(commandInitiatorText);
+		return new MessageCommand(commandParser.parse(event.getMessage().getContent()), commandInitiatorText, event);
 	}
 
 }
