@@ -144,6 +144,15 @@ public final class CommandHandler implements IListener<MessageReceivedEvent> {
 		}
 	};
 
+	private final StringCommandHandle STOP = new StringCommandHandle("stop", "disconnect") {
+
+		@Override
+		public void act(MessageCommand data) {
+			data.receivedEvent.getChannel().sendMessage("Logging out...");
+			data.receivedEvent.getClient().logout();
+		}
+	};
+
 	private final StringCommandHandle PURGE = new StringCommandHandle("purge") {
 
 		// Syntax: purge ["-silent"] [user-reference] [amount]
