@@ -133,6 +133,14 @@ public final class CommandHandler implements IListener<MessageReceivedEvent> {
 		}
 	};
 
+	private final StringCommandHandle ECHO = new StringCommandHandle("echo") {
+
+		@Override
+		public void act(MessageCommand data) {
+			data.receivedEvent.getChannel().sendMessage(data.receivedEvent.getMessage().getContent());
+		}
+	};
+
 	private final StringCommandHandle PURGE = new StringCommandHandle("purge") {
 
 		// Syntax: purge ["-silent"] [user-reference] [amount]
