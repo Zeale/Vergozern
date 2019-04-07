@@ -1,5 +1,10 @@
 package com.vergozern.processing;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.EnumSet;
 
 import org.alixia.javalibrary.commands.GenericCommand;
@@ -10,9 +15,12 @@ import org.alixia.javalibrary.strings.matching.Matching;
 import com.vergozern.api.commands.MessageCommand;
 import com.vergozern.api.commands.processing.MessageCommandManager;
 import com.vergozern.api.commands.processing.MessageCommandParser;
+import com.vergozern.api.permissions.Permission;
 
+import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.handle.obj.Permissions;
 import sx.blah.discord.util.EmbedBuilder;
 
@@ -153,9 +161,65 @@ public final class CommandHandler implements IListener<MessageReceivedEvent> {
 		}
 	};
 
+	private final StringCommandHandle PLAY = new StringCommandHandle("play", "play-music") {
+
+		@Override
+		public void act(MessageCommand data) {
+			if (data.args.length < 1)
+				data.receivedEvent.getChannel().sendMessage("Please give me a link so that I'll know what to play.");
+			else
+				try {
+					HttpURLConnection connection = (HttpURLConnection) new URL(
+							"https://www.googleapis.com/youtube/v3/search?maxResults=1&type=video&videoDimension=2D&q="
+									+ URLEncoder.encode(String.join(" ", data.args), StandardCharsets.UTF_8.name()))
+											.openConnection();
+					connection.addRequestProperty("User-Agent", data.receivedEvent.getClient().getApplicationName());
+					
+				} catch (IOException e) {
+					// TODO Print error.
+					e.printStackTrace();
+				}
+		}
+	};
+
+	private final StringCommandHandle PURGE_SILENT = new StringCommandHandle("purge-silent", "spurge", "silentpurge",
+			"purgesilent", "purges") {
+
+		// Syntax: purge-silent [user-reference] [amount]
+
+		@Override
+		public void act(MessageCommand data) {
+			if (data.args.length == 0) {
+				if (data.receivedEvent.getChannel().isPrivate()) {
+					// TODO Account for private channels
+				} else {
+					// First check if the user has permissions.
+					if (Permission.has(data.receivedEvent.getChannel(), Permissions.ADMINISTRATOR,
+							Permissions.MANAGE_MESSAGES).has(data.receivedEvent.getAuthor()))
+						data.receivedEvent.getChannel().bulkDelete();
+					else
+						data.receivedEvent.getChannel().sendMessage(
+								"You don't have permission to execute that. (You need `Administrator` or `Manage Messages` permissions.");
+				}
+			} else if (data.args.length == 1) {
+				if (data.receivedEvent.getChannel().isPrivate()) {
+					// TODO Account for private channels
+				} else {
+
+				}
+			} else if (data.args.length == 2) {
+				if (data.receivedEvent.getChannel().isPrivate()) {
+					// TODO Account for private channels
+				} else {
+
+				}
+			}
+		}
+	};
+
 	private final StringCommandHandle PURGE = new StringCommandHandle("purge") {
 
-		// Syntax: purge ["-silent"] [user-reference] [amount]
+		// Syntax: purge [user-reference] [amount]
 
 		@Override
 		public void act(MessageCommand data) {
@@ -193,7 +257,7 @@ public final class CommandHandler implements IListener<MessageReceivedEvent> {
 				}
 
 			} else if (data.args.length == 1) {
-				// TODO The remainder of this command.
+
 			}
 		}
 	};
