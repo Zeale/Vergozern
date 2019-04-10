@@ -1,10 +1,27 @@
 package com.vergozern;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import zeale.apps.tools.api.data.files.filesystem.storage.FileStorage;
 
 public class Vergözern {
-	private final static FileStorage DEFAULT_PROGRAM_STORAGE = FileStorage.create(
-			System.getProperty("user.home", "C:/Program Files") + "/Vergözern", "C:/Program Files (x86)/Vergözern");
+
+	private final static FileStorage DEFAULT_PROGRAM_STORAGE;
+	static {
+		List<String> paths = new ArrayList<>(5);
+		paths.add("C:/Vergözern");
+		paths.add("C:/Program Files/Vergözern");
+		paths.add("C:/Program Files (x86)/Vergözern");
+
+		String path = System.getProperty("user.home");
+		if (path != null) {
+			paths.add(path + "/AppData/Roaming/Vergözern");
+			paths.add(path + "/Vergözern");
+		}
+
+		DEFAULT_PROGRAM_STORAGE = FileStorage.create(paths.toArray(new String[paths.size()]));
+	}
 
 	/**
 	 * Returns a {@link FileStorage} that can be used for saving data.
